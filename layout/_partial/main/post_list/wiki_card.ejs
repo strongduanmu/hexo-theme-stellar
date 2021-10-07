@@ -1,29 +1,24 @@
 <%
 function layoutDiv() {
   var el = '';
-  if (post.logo && post.logo.src) {
+  if (proj.logo && proj.logo.src) {
     el += '<div class="preview">';
-    el += '<img src="' + post.logo.src + '" alt="logo"';
-    if (post.logo.small) {
-      el += ' height="' + post.logo.small + '"';
+    el += '<img src="' + proj.logo.src + '" alt="logo"';
+    if (proj.logo.small) {
+      el += ' height="' + proj.logo.small + '"';
     }
     el += '/>';
     el += '</div>';
   }
   el += '<div class="excerpt">';
-  var cat = '';
-  site.pages.filter(function (p) {
-    return p.layout == 'index' && p.title && p.wiki && p.wiki.includes(post.wiki)
-  }).limit(1).each(function(p) {
-    cat = p.title;
-  });
-  if (cat) {
-    el += '<div class="cap breadcrumb"' + category_color(cat) + '>';
-    el += '<span>' + cat + '</span>';
-    el += '</div>';
+  if (proj.tags && proj.tags.length > 0) {
+    let tag = proj.tags[0];
+    el += '<div class="cap breadcrumb"' + category_color(tag) + '>' + tag + '</div>';
   }
-  el += '<h2 class="post-title">' + (post.wiki || post.title || post.seo_title) + '</h2>';
-  el += '<p>' + post.description + '</p>';
+  el += '<h2 class="post-title">' + (proj.wiki || proj.title || proj.seo_title) + '</h2>';
+  if (proj.description) {
+    el += '<p>' + proj.description + '</p>';
+  }
   el += '</div>';
   return el;
 }

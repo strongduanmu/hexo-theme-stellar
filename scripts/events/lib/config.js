@@ -36,8 +36,8 @@ module.exports = hexo => {
     hexo.theme.config.sidebar.menu = [];
   }
   // default widgets
-  if (hexo.theme.config.sidebar.widgets.default == undefined) {
-    hexo.theme.config.sidebar.widgets.default = ['welcome', 'recent'];
+  if (hexo.theme.config.sidebar.widgets.repo_info == undefined) {
+    hexo.theme.config.sidebar.widgets.repo_info = {layout: 'repo_info'};
   }
   if (hexo.theme.config.sidebar.widgets.wiki_more == undefined) {
     hexo.theme.config.sidebar.widgets.wiki_more = {layout: 'wiki_more'};

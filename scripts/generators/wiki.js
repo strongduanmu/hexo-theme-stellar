@@ -10,11 +10,26 @@ hexo.extend.generator.register('wiki', function (locals) {
     }
   });
   if (hasWiki) {
-    return {
+    var ret = [];
+    ret.push({
       path: (hexo.config.wiki_dir || 'wiki') + '/index.html',
-      data: locals.posts,
+      data: {'filter': false},
       layout: ['wiki']
+    });
+    if (hexo.theme.config.wiki && hexo.theme.config.wiki.all_tags) {
+      for (let id of Object.keys(hexo.theme.config.wiki.all_tags)) {
+        let tag = hexo.theme.config.wiki.all_tags[id];
+        ret.push({
+          path: tag.path,
+          data: {
+            'filter': true,
+            'tagName': tag.name
+          },
+          layout: ['wiki']
+        });
+      }
     }
+    return ret;
   } else {
     return {};
   }

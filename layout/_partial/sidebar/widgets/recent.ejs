@@ -2,7 +2,7 @@
 function layoutDiv() {
   var el = '<div class="widget-wrap" id="recent">';
   // header
-  el += '<div class="widget-header h4 dis-select">';
+  el += '<div class="widget-header cap dis-select">';
   el += '<span class="name">' + __("meta.recent_update") + '</span>';
   if (item.rss) {
     el += '<a class="cap-action" id="rss" title="Subscribe" href="' + item.rss + '">';
@@ -11,24 +11,45 @@ function layoutDiv() {
   }
   el += '</div>';
   // body
-  var arr = page.menu_id == "wiki" ? site.pages.filter(function(p){
-    return p.layout == "wiki" && p.title && p.title.length > 0;
-  }) : site.posts.filter(function(p){
-    return p.title && p.title.length > 0;
-  });
+  var arr = [];
+  if (page.menu_id == 'wiki') {
+    arr = theme.wiki.all_pages.filter(function(p){
+      if (p.wiki) {
+        let proj = theme.wiki.projects[p.wiki];
+        return proj.index != false;
+      }
+      return false;
+    });
+  } else {
+    arr = site.posts.filter(function(p){
+      return p.title && p.title.length > 0;
+    });
+  }
   el += '<div class="widget-body fs14">';
   arr.sort("updated", -1).limit(item.limit).each(function(post) {
-    el += '<div class="post-title reveal">';
+    el += '<div class="line"></div>'
+    el += '<a class="more-item" href="' + url_for(post.link || post.path) + '">';
     el += '<div class="cap">';
     el += '<time>' + date(post.updated, config.date_format) + '</time>';
-    el += '</div>';
-    el += '<a href="' + url_for(post.link || post.path) + '">';
-    if (post.wiki && (post.title.toUpperCase().includes(post.wiki.toUpperCase()) == false)) {
-       el += post.wiki + ': ';
+    if (post.layout == 'wiki') {
+      el += '<span>';
+      let proj = theme.wiki.projects[post.wiki];
+      if (proj && proj.title) {
+        el += proj.title;
+      } else if (post.wiki) {
+        el += post.wiki;
+      }
+      el += '</span>';
+    } else {
+      post.categories.limit(1).forEach((cat, i) => {
+        el += '<span>' + cat.name + '</span>';
+      });
     }
-    el += post.title;
-    el += '</a>';
     el += '</div>';
+    el += '<span class="title">';
+    el += post.title || post.seo_title || post.wiki;
+    el += '</span>';
+    el += '</a>';
     el += '';
   });
   el += '</div>';

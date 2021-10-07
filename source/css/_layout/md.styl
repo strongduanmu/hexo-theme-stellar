@@ -3,6 +3,7 @@ article.md
   padding: 1rem
   color: var(--text-p1)
   line-height: 1.7
+  word-break: break-word
 
 article.md.excerpt
   p
@@ -24,12 +25,31 @@ article.md.content
     color: var(--text-p0)
     padding-top: 1rem
     margin-bottom: 1em
+    line-height: 1.8
     &:hover
       a.headerlink:before
         opacity: 1
 
+.md
+  ul:not(:last-child),
+  ol:not(:last-child)
+    padding-bottom: .5rem
+    margin: 0
+  blockquote,ul,ol
+    p,ul,ol
+      font-size: $fs-14
+      line-height: 1.5
+  p,blockquote,.tag-plugin,ul,ol,.highlight,table
+    *
+      --gap-p: .5rem
+  p,.tag-plugin
+    margin-top: var(--gap-p)
+    margin-bottom: var(--gap-p)
+    .highlight,table
+      --gap-p: 1rem
+
 // titles
-article.md
+article.md.content
   a.headerlink:before
     opacity: 0
     content: '#'
@@ -45,20 +65,20 @@ article.md
   h4,h5,h6
     font-weight: 500
   h1+h2
-    margin-top: 0
+    margin-top: -0.5rem
   h2+h3
-    margin-top: 0
+    margin-top: -1rem
   h3+h4
-    margin-top: 0
+    margin-top: -1rem
   h4+h5
-    margin-top: 0
+    margin-top: -1rem
   h5+h6
-    margin-top: 0
+    margin-top: -1rem
 
 // a
 article.md
-  p>a
-    &:not([class])
+  p, li:not([class])
+    >a:not([class])
       font-weight: 500
       &:hover
         text-decoration: underline
@@ -66,34 +86,26 @@ article.md
 article.md p
   font-size: $fs-p
 
-// code
-article.md code
-  color: $color-inlinecode
-  font-family: $ff-code
-  word-break: break-all
-  font-size: inherit
-  background: var(--block)
-  padding: 2px
-  border-radius: 2px
-  border: 1px solid var(--block-border)
+article.md pre
+  -webkit-font-smoothing: auto
+  -moz-osx-font-smoothing: auto
 
 // div
 article.md>div
-  margin: 1rem 0
+  margin: var(--gap-p) 0
 // blockquote
 article.md blockquote
-  margin: 1rem 0
+  margin-left: 0
+  margin-right: 0
   padding: 1rem
-  background: var(--block)
-  border-left: 3px solid $color-theme
-  border-radius: 0 $border-block $border-block 0
+  background: var(--card)
+  border-left: 6px solid $color-theme
+  border-radius: $border-block
   color: var(--text-p2)
-  p
-    margin: 0.5em 0
-    font-size: $fs-14
+  box-shadow: $boxshadow-card
 
 
 article.md img
-  border-radius: 10px
+  border-radius: $border-image
   margin: auto
   display: block

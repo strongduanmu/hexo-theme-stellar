@@ -1,22 +1,34 @@
 <%
 function layoutDiv() {
+  const cmt = 'utterances';
+  // 合并配置参数
+  var config = Object.assign({}, theme.comments[cmt]);
+  if (page.layout === 'wiki' && page.wiki) {
+    let proj = theme.wiki.projects[page.wiki];
+    if (proj[cmt] != undefined) {
+      Object.assign(config, proj[cmt]);
+    }
+  }
+  Object.assign(config, page[cmt]);
+  // 合并评论数据
+  if (config['issue-number'] !== null) {
+    config['issue-term'] = null;
+  } else {
+    if (page.comment_id != undefined) {
+      config['issue-term'] = page.comment_id;
+    } else if (page.layout === 'wiki' && page.wiki) {
+      let proj = theme.wiki.projects[page.wiki];
+      if (proj.comment_id != undefined) {
+        config['issue-term'] = proj.comment_id;
+      }
+    }
+  }
+  // 布局
   var el = '';
-  el += '<div id="utterances"';
-  let utterances = Object.assign({}, theme.comments.utterances, page.utterances);
-  if (page.comment_id) {
-    utterances['issue-term'] = page.comment_id;
-  }
-  if (page.dark && utterances.theme.dark) {
-    utterances.theme = utterances.theme.dark;
-  } else if (utterances.theme.light) {
-    utterances.theme = utterances.theme.light;
-  }
-  if (utterances['issue-number']) {
-    utterances['issue-term'] = null;
-  }
-  for (let key of Object.keys(utterances)) {
-    if (utterances[key]) {
-      el += ' ' + key + '="' + utterances[key] + '"';
+  el += '<div id="' + cmt + '"';
+  for (let key of Object.keys(config)) {
+    if (config[key] !== null) {
+      el += ' ' + key + '="' + config[key] + '"';
     }
   }
   el += '></div>';
