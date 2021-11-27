@@ -19,7 +19,7 @@ hexo.extend.tag.register('about', function(args, content) {
   // avatar
   if (args.avatar) {
     el += '<div class="avatar">'
-    el += '<img src="' + args.avatar + '"';
+    el += '<img src="' + args.avatar + '" style="border-radius: 50%;"';
     if (args.height && args.height.length > 0) {
       el += ' height="' + args.height + '"/>';
     } else {
@@ -28,11 +28,11 @@ hexo.extend.tag.register('about', function(args, content) {
     el += '</div>';
   }
   // title
-  if (rows.length > 0) {
+  // if (rows.length > 0) {
     // el += '<div class="title">';
-    el += rows.shift();
+    // el += rows.shift();
     // el += '</div>';
-  }
+  // }
 
   el += '</div>';
 
